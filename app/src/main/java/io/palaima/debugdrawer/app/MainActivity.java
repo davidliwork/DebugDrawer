@@ -31,6 +31,7 @@ import io.palaima.debugdrawer.fps.FpsModule;
 import io.palaima.debugdrawer.glide.GlideModule;
 import io.palaima.debugdrawer.location.LocationModule;
 import io.palaima.debugdrawer.logs.LogsModule;
+import io.palaima.debugdrawer.net.NetModule;
 import io.palaima.debugdrawer.network.quality.NetworkQualityModule;
 import io.palaima.debugdrawer.okhttp3.OkHttp3Module;
 import io.palaima.debugdrawer.scalpel.ScalpelModule;
@@ -82,7 +83,8 @@ public class MainActivity extends AppCompatActivity {
         new DebugDrawer.Builder(this).modules(
             new GlideModule(Glide.get(this)),
             new ActionsModule(switchAction, buttonAction, spinnerAction),
-            new FpsModule(Takt.stock(getApplication())),
+            new FpsModule(Takt.stock(getApplication()).showOverlaySetting(false)),
+            new NetModule(getApplication()),
             new LocationModule(),
             new LogsModule(),
             new ScalpelModule(this),

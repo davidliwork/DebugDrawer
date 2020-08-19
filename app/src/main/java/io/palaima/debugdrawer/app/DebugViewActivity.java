@@ -8,6 +8,7 @@ import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.jakewharton.picasso.OkHttp3Downloader;
 import com.squareup.picasso.Picasso;
 
@@ -24,6 +25,7 @@ import io.palaima.debugdrawer.commons.DeviceModule;
 import io.palaima.debugdrawer.commons.NetworkModule;
 import io.palaima.debugdrawer.commons.SettingsModule;
 import io.palaima.debugdrawer.fps.FpsModule;
+import io.palaima.debugdrawer.glide.GlideModule;
 import io.palaima.debugdrawer.location.LocationModule;
 import io.palaima.debugdrawer.logs.LogsModule;
 import io.palaima.debugdrawer.network.quality.NetworkQualityModule;
@@ -51,14 +53,14 @@ public class DebugViewActivity extends AppCompatActivity {
         setContentView(R.layout.activity_debugview);
         okHttpClient = createOkHttpClientBuilder(this.getApplication()).build();
         picasso = new Picasso.Builder(this)
-            .downloader(new OkHttp3Downloader(okHttpClient))
-            .listener(new Picasso.Listener() {
-                @Override
-                public void onImageLoadFailed(Picasso picasso, Uri uri, Exception e) {
-                    Log.e("Picasso", "Failed to load image: %s", e);
-                }
-            })
-            .build();
+                .downloader(new OkHttp3Downloader(okHttpClient))
+                .listener(new Picasso.Listener() {
+                    @Override
+                    public void onImageLoadFailed(Picasso picasso, Uri uri, Exception e) {
+                        Log.e("Picasso", "Failed to load image: %s", e);
+                    }
+                })
+                .build();
 
         setupToolBar();
 
@@ -77,31 +79,32 @@ public class DebugViewActivity extends AppCompatActivity {
         });
 
         SpinnerAction<String> spinnerAction = new SpinnerAction<>(
-            Arrays.asList("First", "Second", "Third"),
-            new SpinnerAction.OnItemSelectedListener<String>() {
-                @Override
-                public void onItemSelected(String value) {
-                    Toast.makeText(DebugViewActivity.this, "Spinner item selected - " + value, Toast.LENGTH_LONG).show();
+                Arrays.asList("First", "Second", "Third"),
+                new SpinnerAction.OnItemSelectedListener<String>() {
+                    @Override
+                    public void onItemSelected(String value) {
+                        Toast.makeText(DebugViewActivity.this, "Spinner item selected - " + value, Toast.LENGTH_LONG).show();
+                    }
                 }
-            }
         );
 
         debugView = findViewById(R.id.debug_view);
 
         debugView.modules(
-            new ActionsModule(switchAction, buttonAction, spinnerAction),
-            new FpsModule(Takt.stock(getApplication())),
-            new PicassoModule(picasso),
-            new LocationModule(),
-            new LogsModule(),
-            new ScalpelModule(this),
-            new TimberModule(),
-            new OkHttp3Module(okHttpClient),
-            new NetworkQualityModule(this),
-            new DeviceModule(),
-            new BuildModule(),
-            new NetworkModule(),
-            new SettingsModule()
+                new ActionsModule(switchAction, buttonAction, spinnerAction),
+                new FpsModule(Takt.stock(getApplication())),
+                new PicassoModule(picasso),
+                new GlideModule(Glide.get(this)),
+                new LocationModule(),
+                new LogsModule(),
+                new ScalpelModule(this),
+                new TimberModule(),
+                new OkHttp3Module(okHttpClient),
+                new NetworkQualityModule(this),
+                new DeviceModule(),
+                new BuildModule(),
+                new NetworkModule(),
+                new SettingsModule()
         );
 
         showDummyLog();
@@ -156,11 +159,11 @@ public class DebugViewActivity extends AppCompatActivity {
         Cache cache = new Cache(cacheDir, DISK_CACHE_SIZE);
 
         return new OkHttpClient.Builder()
-            .cache(cache)
-            .addInterceptor(LogsModule.chuckInterceptor(app))
-            .addInterceptor(NetworkQualityModule.interceptor(app))
-            .readTimeout(10, TimeUnit.SECONDS)
-            .writeTimeout(10, TimeUnit.SECONDS)
-            .connectTimeout(10, TimeUnit.SECONDS);
+                .cache(cache)
+                .addInterceptor(LogsModule.chuckInterceptor(app))
+                .addInterceptor(NetworkQualityModule.interceptor(app))
+                .readTimeout(10, TimeUnit.SECONDS)
+                .writeTimeout(10, TimeUnit.SECONDS)
+                .connectTimeout(10, TimeUnit.SECONDS);
     }
 }

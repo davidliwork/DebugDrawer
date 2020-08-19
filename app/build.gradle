@@ -97,6 +97,7 @@ dependencies {
     implementation project(':debugdrawer-location')
     implementation project(':debugdrawer-timber')
     implementation project(':debugdrawer-fps')
+    implementation project(':debugdrawer-net')
     implementation project(':debugdrawer-glide')
     implementation project(':debugdrawer-logs')
     implementation project(':debugdrawer-network-quality')

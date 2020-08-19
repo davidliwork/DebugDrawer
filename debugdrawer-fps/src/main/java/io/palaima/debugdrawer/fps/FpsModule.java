@@ -61,15 +61,23 @@ public class FpsModule extends DebugModuleAdapter {
 
     @Override
     public void onResume() {
-        if (isChecked) {
-            program.play();
+        try {
+            if (isChecked) {
+                program.play();
+            }
+        }catch (Exception e){
+
         }
     }
 
     @Override
     public void onPause() {
-        if (isChecked) {
-            program.stop();
+        try {
+            if (isChecked) {
+                program.stop();
+            }
+        }catch (Exception e){
+
         }
     }
 }

@@ -72,7 +72,7 @@ allprojects {
     ext.okhttpVersion = '3.4.1'
     ext.okhttp2Version = '2.7.0'
     ext.scalpelVersion = '1.1.2'
-    ext.taktVersion = '1.0.2'
+    ext.taktVersion = '2.0.1'
     ext.leakCanaryVersion = '1.5.4'
     ext.lynxVersion = '1.1.0'
     ext.chukVersion = '1.1.0'
